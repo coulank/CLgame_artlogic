@@ -62,6 +62,11 @@ namespace CLgames
         new void Start()
         {
             base.Start();
+            Tilemap tilemap = GetComponentInChildren<Tilemap>();
+            var position = new Vector3Int(0, 0, 0);
+            tilemap.BoxFill(new Vector3Int(0, 0, 0), m_Grids.AllBorderPanel, -5, -5, 5, 5);
+            tilemap.BoxFill(new Vector3Int(1, 0, 0), m_Grids.AllBorderPanel, -5, -5, 5, 5);
+            tilemap.BoxFill(new Vector3Int(2, 0, 0), m_Grids.AllBorderPanel, -5, -5, 5, 5);
         }
         new void Update()
         {
