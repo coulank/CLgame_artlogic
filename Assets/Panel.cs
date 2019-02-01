@@ -48,8 +48,8 @@ namespace CLgames
     {
         /// <summary>1の位のオブジェクト</summary>
         public List<OnesPanel> OnesPlaces;
-        /// <summary>10の位のオブジェクト</summary>
-        public List<TileBase> TensPlaces;
+        /// <summary>10の位のときのオブジェクト</summary>
+        public List<OnesPanel> TensPlaces;
     }
 
     public class Panel : clController.ControllerMaster
@@ -58,15 +58,111 @@ namespace CLgames
         public Grid m_Grids;
         [SerializeField]
         public NumberPanel m_Nums;
+        private Tilemap m_BorderGridTile;
+        private Tilemap m_NumberTile;
+
+        public Vector3Int m_OriginPosition = new Vector3Int(0, 0, 0);
+        public int m_Margin = 20;
+
+        void SetTilemapMember()
+        {
+            GameObject borderObject = GameObject.FindGameObjectsWithTag("Border")[0];
+            m_BorderGridTile = borderObject.GetComponentInChildren<Tilemap>();
+            GameObject numberObject = GameObject.FindGameObjectsWithTag("Number")[0];
+            m_NumberTile = numberObject.GetComponentInChildren<Tilemap>();
+        }
+
+        void SetGridsTile(int _x, int _y, int num_x, int num_y)
+        {
+            Tilemap tilemap = m_BorderGridTile;
+            tilemap.origin = m_OriginPosition;
+            tilemap.ClearAllTiles();
+            // 余白
+            for (int x = -m_Margin - num_x; x < _x + m_Margin; x++)
+            {
+                for (int y = -m_Margin - num_y; y < _y + m_Margin; y++)
+                {
+                    tilemap.SetTile(
+                        new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0)
+                        , m_Grids.WhitePanel);
+                }
+            }
+
+            // ユーザーが操作するエリアのグリッド
+            for (int x = 0; x < _x; x++)
+            {
+                for (int y = 0; y < _y; y++)
+                {
+                    tilemap.SetTile(
+                        new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0)
+                        , m_Grids.AllBorderPanel);
+                }
+            }
+            // 左側のグリッド
+            for (int x = -num_x; x < -1; x++)
+            {
+                tilemap.SetTile(
+                    new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y, 0)
+                    , m_Grids.DownBorderPanel);
+                for (int y = 0; y < _y; y++)
+                {
+                    tilemap.SetTile(
+                        new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0)
+                        , m_Grids.UpDownBorderPanel);
+                }
+            }
+            for (int y = 0; y < _y; y++)
+            {
+                tilemap.SetTile(
+                    new Vector3Int(m_OriginPosition.x - 1, m_OriginPosition.y - y - 1, 0)
+                    , m_Grids.UpDownRightBorderPanel);
+            }
+            // 上側のグリッド
+            for (int y = -num_y; y < -1; y++)
+            {
+                tilemap.SetTile(
+                    new Vector3Int(m_OriginPosition.x - 1, m_OriginPosition.y - y - 1, 0)
+                    , m_Grids.RightBorderPanel);
+                for (int x = 0; x < _x; x++)
+                {
+                    tilemap.SetTile(
+                        new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0)
+                        , m_Grids.LeftRightBorderPanel);
+                }
+            }
+            for (int x = 0; x < _x; x++)
+            {
+                tilemap.SetTile(
+                    new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y, 0)
+                    , m_Grids.LeftRightDownBorderPanel);
+            }
+            tilemap.SetTile(
+                new Vector3Int(m_OriginPosition.x - 1, m_OriginPosition.y, 0)
+                , m_Grids.RightDownBorderPanel);
+            // 下側のグリッド
+            for (int x = -num_x; x < _x; x++)
+            {
+                tilemap.SetTile(
+                new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - _y - 1, 0)
+                , m_Grids.UpBorderPanel);
+            }
+            // 右側のグリッド
+            for (int y = -num_y; y < _y; y++)
+            {
+                tilemap.SetTile(
+                    new Vector3Int(m_OriginPosition.x + _x, m_OriginPosition.y - y - 1, 0)
+                    , m_Grids.LeftBorderPanel);
+            }
+            tilemap.SetTile(
+                new Vector3Int(m_OriginPosition.x + _x, m_OriginPosition.y - _y - 1, 0)
+                , m_Grids.LeftUpBorderPanel);
+        }
 
         new void Start()
         {
             base.Start();
-            Tilemap tilemap = GetComponentInChildren<Tilemap>();
-            var position = new Vector3Int(0, 0, 0);
-            tilemap.BoxFill(new Vector3Int(0, 0, 0), m_Grids.AllBorderPanel, -5, -5, 5, 5);
-            tilemap.BoxFill(new Vector3Int(1, 0, 0), m_Grids.AllBorderPanel, -5, -5, 5, 5);
-            tilemap.BoxFill(new Vector3Int(2, 0, 0), m_Grids.AllBorderPanel, -5, -5, 5, 5);
+            SetTilemapMember();
+            SetGridsTile(5, 5, 3, 3);
         }
         new void Update()
         {
