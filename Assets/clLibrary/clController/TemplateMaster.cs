@@ -2,17 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace clController
+namespace Coulank
 {
-    public class TemplateMaster : ControllerMaster
+    namespace Controller
     {
-        new void Start()
+        public class TemplateMaster : Master
         {
-            base.Start();
-        }
-        new void Update()
-        {
-            base.Update();
+            new void Start()
+            {
+                base.Start();
+            }
+            new void Update()
+            {
+                base.Update();
+            }
         }
     }
 }
