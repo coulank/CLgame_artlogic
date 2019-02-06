@@ -1,0 +1,83 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f981ca4887d58f64ab565b6eddb257a3, type: 3}
+  m_Name: GridPanel
+  m_EditorClassIdentifier: 
+  m_Grids:
+    WhitePanel: {fileID: 11400000, guid: 1fd839385c3f6db47baf5dbb5e733b41, type: 2}
+    RightBorderPanel: {fileID: 11400000, guid: c8b1c425bdd481a4f8cee51636e00559, type: 2}
+    DownBorderPanel: {fileID: 11400000, guid: 23c0cd58e7945f04286a304fc2c7169e, type: 2}
+    RightDownBorderPanel: {fileID: 11400000, guid: 53d22c2455e743d458b83b8d97ee05ee,
+      type: 2}
+    LeftBorderPanel: {fileID: 11400000, guid: 6cc8208f0fb375c40a346aff14867ecc, type: 2}
+    UpBorderPanel: {fileID: 11400000, guid: d74d3eba5cbae594885e28a150df69d8, type: 2}
+    LeftUpBorderPanel: {fileID: 11400000, guid: c16152e44873ea5458bc5f23f6707da1,
+      type: 2}
+    LeftRightBorderPanel: {fileID: 11400000, guid: a374bed5f9a930949acf07474cea3359,
+      type: 2}
+    LeftRightDownBorderPanel: {fileID: 11400000, guid: 7c8c9b160705d25479f638620bfed8e0,
+      type: 2}
+    UpDownBorderPanel: {fileID: 11400000, guid: f802c80180a315542a57f013eadacd20,
+      type: 2}
+    UpDownRightBorderPanel: {fileID: 11400000, guid: 78eb699039e651942bc8af5635ad5f64,
+      type: 2}
+    AllBorderPanel: {fileID: 11400000, guid: ed24dfa10aaec9040baef836ccef3306, type: 2}
+  m_Nums:
+    OnesPlaces:
+    - LeftPlace: {fileID: 11400000, guid: c462d9a23129fff4e95cea201407bfb1, type: 2}
+      RightPlace: {fileID: 11400000, guid: f510326c6b1bacf4ca53e51c7e0a34c0, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 556a011462c3cb64fbe06fee646065a9, type: 2}
+      RightPlace: {fileID: 11400000, guid: 23b29b092d1fca84e97c9a0eee00a30a, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 579ff996239ac1649bb16b93b1b11dfa, type: 2}
+      RightPlace: {fileID: 11400000, guid: d29d4ab7de91648469805593380cf980, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 3186e7b6fa1457d41a8c8c58df22a2fa, type: 2}
+      RightPlace: {fileID: 11400000, guid: 9815fae7d32c37e44949c5f097dbf2d2, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 72778df54cdb19e4db2b3a7c1c93ae5c, type: 2}
+      RightPlace: {fileID: 11400000, guid: a68e1126510f9004c9dcaa2d33193d79, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: aafdd89b93601c64ea011c7facd84b68, type: 2}
+      RightPlace: {fileID: 11400000, guid: 53c8cfba732d9324aae693a270592e63, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 309cd866e2626144996581fd9548be19, type: 2}
+      RightPlace: {fileID: 11400000, guid: 475de6eaaacabf64a828695bc9de50f7, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 9daf7c4dc79b47b4caeb9a6bc0a67837, type: 2}
+      RightPlace: {fileID: 11400000, guid: f07c986fae24e854689fbfc7ae37a288, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 888ccf7e73e1df649a0de5fe7d54c464, type: 2}
+      RightPlace: {fileID: 11400000, guid: 93edf726db782d5439e0a08e8b5d74b8, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 569ab064eaf78c04189577b84c215aad, type: 2}
+      RightPlace: {fileID: 11400000, guid: 448c48b4f6bcf194f832d56b19c47f01, type: 2}
+    TensPlaces:
+    - LeftPlace: {fileID: 11400000, guid: a2586ae10fa205044bbd0ea7425b86b0, type: 2}
+      RightPlace: {fileID: 11400000, guid: a945c2d09085a944da8255c0c728e425, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 410f586e954b6e64f8bef863a066abd2, type: 2}
+      RightPlace: {fileID: 11400000, guid: a9b1954292bece94ba193140e31764d1, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 841fdbe929a87d947acad653b61bfc03, type: 2}
+      RightPlace: {fileID: 11400000, guid: c5072c7f61e8ecb49b558c14e196b0ab, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 970decece6575ac47a793a07a165f30f, type: 2}
+      RightPlace: {fileID: 11400000, guid: e5536e180ddb7044d94d0535858203d7, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: ce0631b329de88d49827e9505c8004da, type: 2}
+      RightPlace: {fileID: 11400000, guid: 0034369446510f14d82671f4ae68bcda, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 2afdf0c18afddc945969131e3caf606c, type: 2}
+      RightPlace: {fileID: 11400000, guid: 2ab10702da2b24c46904f7a95ec9790f, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 87fdc301a73c43040b4962224fdb607a, type: 2}
+      RightPlace: {fileID: 11400000, guid: c48dba794d29fb045b495b910683114a, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 9b806652fc13d864ea346cb64184c2b2, type: 2}
+      RightPlace: {fileID: 11400000, guid: 6b3133809204ebc4aa065c839ab41f23, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 3722964530aa6d0448f32b9fb879707e, type: 2}
+      RightPlace: {fileID: 11400000, guid: 6d875e8f8f8cee14a9d8d7852b4a3744, type: 2}
+    - LeftPlace: {fileID: 11400000, guid: 5341fb54c92acea4caca12f7446c1d7e, type: 2}
+      RightPlace: {fileID: 11400000, guid: f92c3fab7ec53434dbd8ca0afc6e8c0d, type: 2}
+  m_Draws:
+    Check: {fileID: 11400000, guid: 66fdea16276b3584e88b67748c0d3dd4, type: 2}
+    Fill: {fileID: 11400000, guid: 48431f8d5ff87f44c8f1eb42f9f852ab, type: 2}
+  m_BorderGridTile: {fileID: 0}
+  m_NumberTile: {fileID: 0}
+  m_OriginPosition: {x: 0, y: 0, z: 0}
+  m_Margin: 20

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Tens_TensPlace_8
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 21300016, guid: 1e6e3f19b900fbd4994bb2804d31745e, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.14509805, g: 0.14509805, b: 0.14509805, a: 1}
   m_Transform:
     e00: 1
     e01: 0

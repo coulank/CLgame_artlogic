@@ -54,27 +54,154 @@ namespace Coulank
             public List<OnesPanel> TensPlaces;
         }
 
-        public class Panel : Controller.Master
+        [Serializable]
+        public struct DrawPanel
         {
+            public TileBase Check;
+            public TileBase Fill;
+        }
+
+        [CreateAssetMenu(menuName = "Data/CreateGridMenu")]
+        public class PanelParam : ScriptableObject
+        {
+            [SerializeField]
+            List<List<int>> m_Verticals;
+            [SerializeField]
+            List<List<int>> m_Horizons;
+
             [SerializeField]
             public Grid m_Grids;
             [SerializeField]
             public NumberPanel m_Nums;
-            private Tilemap m_BorderGridTile;
-            private Tilemap m_NumberTile;
+            [SerializeField]
+            public DrawPanel m_Draws;
+            public Tilemap m_BorderGridTile;
+            public Tilemap m_NumberTile;
+            public Tilemap m_DrawTile;
 
             public Vector3Int m_OriginPosition = new Vector3Int(0, 0, 0);
             public int m_Margin = 20;
 
-            void SetTilemapMember()
+            public void SetTilemapMember()
             {
                 GameObject borderObject = GameObject.FindGameObjectsWithTag("Border")[0];
                 m_BorderGridTile = borderObject.GetComponentInChildren<Tilemap>();
                 GameObject numberObject = GameObject.FindGameObjectsWithTag("Number")[0];
                 m_NumberTile = numberObject.GetComponentInChildren<Tilemap>();
+                GameObject drawObject = GameObject.FindGameObjectsWithTag("Draw")[0];
+                m_DrawTile = drawObject.GetComponentInChildren<Tilemap>();
             }
-
-            void SetGridsTile(int _x, int _y, int num_x, int num_y)
+            public void SetNumTile(int num, Vector3Int position)
+            {
+                TileBase leftTile, rightTile;
+                if (num < 10)
+                {
+                    leftTile = m_Nums.OnesPlaces[num].LeftPlace;
+                    rightTile = m_Nums.OnesPlaces[num].RightPlace;
+                }
+                else
+                {
+                    num = num % 100;
+                    int one = num % 10;
+                    int ten = (num - one) / 10;
+                    leftTile = m_Nums.TensPlaces[ten].LeftPlace;
+                    rightTile = m_Nums.TensPlaces[one].RightPlace;
+                }
+                Vector3Int vl = new Vector3Int((m_OriginPosition.x + position.x) * 2, m_OriginPosition.y - position.y - 1, 0);
+                Vector3Int vr = new Vector3Int(vl.x + 1, vl.y, 0);
+                Debug.Log(string.Format("left:{0}, right:{1}", vl, vr));
+                m_NumberTile.SetTile(vl, leftTile);
+                m_NumberTile.SetTile(vr, rightTile);
+            }
+            public void TestDataToDraw(byte[] data, int threshold = 7)
+            {
+                m_NumberTile.origin = m_OriginPosition;
+                m_NumberTile.ClearAllTiles();
+                List<bool> pixelJudges = new List<bool>();
+                int width = data[2];
+                int height = data[3];
+                int leftWidth = 4;
+                int topHeight = 4;
+                Tilemap tilemap = m_DrawTile;
+                tilemap.origin = m_OriginPosition;
+                tilemap.ClearAllTiles();
+                for (int j = 4; j < data.Length; j++)
+                {
+                    int i = j - 4;
+                    int x = Mathf.FloorToInt((i) % width);
+                    int y = Mathf.FloorToInt((i) / width);
+                    pixelJudges.Add((data[j] & 15) >= threshold);
+                    Vector3Int v = new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0);
+                    if (pixelJudges[i]) tilemap.SetTile(v, m_Draws.Fill);
+                }
+                List<List<int>> verticals = new List<List<int>>();
+                List<List<int>> horizons = new List<List<int>>();
+                int count = 0;
+                for (int x= 0; x < width; x++)  // ||の並び
+                {
+                    verticals.Add(new List<int>());
+                    for (int y = 0; y < height; y++)
+                    {
+                        int i = y + x * width;
+                        if (pixelJudges[i])
+                        {
+                            count++;
+                            if ((y + 1) == height)
+                            {
+                                verticals[x].Add(count);
+                                count = 0;
+                            }
+                        }
+                        else
+                        {
+                            if (count > 0)
+                            {
+                                verticals[x].Add(count);
+                                count = 0;
+                            }
+                        }
+                    }
+                    if (verticals[x].Count == 0) verticals[x].Add(0);
+                    for (int y = 0; y < verticals[x].Count; y++)
+                    {
+                        SetNumTile(verticals[x][y], new Vector3Int(-verticals[x].Count + y, x, 0));
+                    }
+                    if (topHeight < verticals[x].Count) topHeight = verticals[x].Count;
+                }
+                for (int y = 0; y < height; y++)    // =の並び
+                {
+                    horizons.Add(new List<int>());
+                    for (int x = 0; x < width; x++)
+                    {
+                        int i = y + x * height;
+                        if (pixelJudges[i])
+                        {
+                            count++;
+                            if ((x + 1) == width)
+                            {
+                                horizons[y].Add(count);
+                                count = 0;
+                            }
+                        }
+                        else
+                        {
+                            if (count > 0)
+                            {
+                                horizons[y].Add(count);
+                                count = 0;
+                            }
+                        }
+                    }
+                    if (horizons[y].Count == 0) horizons[y].Add(0);
+                    for (int x = 0; x < horizons[y].Count; x++)
+                    {
+                        SetNumTile(horizons[y][x], new Vector3Int(y, -horizons[y].Count + x, 0));
+                    }
+                    if (leftWidth < horizons[y].Count) leftWidth = horizons[y].Count;
+                }
+                SetGridsTile(width, height, leftWidth, topHeight);
+            }
+            public void SetGridsTile(int _x, int _y, int num_x, int num_y)
             {
                 Tilemap tilemap = m_BorderGridTile;
                 tilemap.origin = m_OriginPosition;
@@ -158,17 +285,6 @@ namespace Coulank
                 tilemap.SetTile(
                     new Vector3Int(m_OriginPosition.x + _x, m_OriginPosition.y - _y - 1, 0)
                     , m_Grids.LeftUpBorderPanel);
-            }
-
-            new void Start()
-            {
-                base.Start();
-                SetTilemapMember();
-                SetGridsTile(5, 5, 3, 3);
-            }
-            new void Update()
-            {
-                base.Update();
             }
         }
     }
