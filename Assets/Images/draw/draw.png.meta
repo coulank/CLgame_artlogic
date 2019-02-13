@@ -4,6 +4,7 @@ TextureImporter:
   fileIDToRecycleName:
     21300000: draw_check
     21300002: draw_fill
+    21300004: draw_blank
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -143,6 +144,26 @@ TextureImporter:
       tessellationDetail: 0
       bones: []
       spriteID: 544ca9e570a7fc24b995a5a987201068
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: draw_blank
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 729f8c9560f845b4d90f1ab85518677a
       vertices: []
       indices: 
       edges: []

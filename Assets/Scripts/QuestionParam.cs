@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Coulank;
+using Coulank.Convert;
 
 [CreateAssetMenu(menuName = "Data/CreateQuestion")]
 public class QuestionParam : ScriptableObject
@@ -18,6 +18,11 @@ public class QuestionParam : ScriptableObject
     public byte[] Data
     {
         get { return m_Data; }
+    }
+    [ContextMenu("Json形式で書きだす")]
+    public void WriteOut()
+    {
+        Debug.Log(JsonUtility.ToJson(this));
     }
 
     [ContextMenu("設定したテクスチャの反映")]
