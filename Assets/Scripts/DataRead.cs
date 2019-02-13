@@ -19,12 +19,28 @@ namespace Coulank
             Tile m_Draw;
             Byte m_Byte;
             Vector2Int m_Pos;
+            [SerializeField]
+            bool m_AssistMode;
+            public bool AssistMode
+            {
+                get { return m_AssistMode; }
+                set {
+                    m_AssistMode = value;
+                    if (m_Panel != null)
+                    {
+                        if (AssistMode)
+                            m_Panel.SetNumTile(m_Panel.m_QNums, m_Panel.m_UNums);
+                        else
+                            m_Panel.SetNumTile(m_Panel.m_QNums);
+                    }
+                }
+            }
             new void Start()
             {
                 base.Start();
                 if (m_DefaultPanel == null) m_DefaultPanel = Resources.Load<PanelParam>("GridPanel");
-                //m_Panel = Instantiate(m_DefaultPanel);
-                m_Panel = m_DefaultPanel;
+                m_Panel = Instantiate(m_DefaultPanel);
+                //m_Panel = m_DefaultPanel;
                 QuestionParam questionParam = m_Question.QuestionList[0];
                 //byte[] question = Convert.Compress.ByteDecompress(questionParam.Data);
                 //m_Panel.TestDataToDraw(question, questionParam.m_Threshold);
@@ -95,10 +111,19 @@ namespace Coulank
                                     m_Panel.UData, posInt.x);
                                 //m_Panel.SetNumTile(m_Panel.m_UNums);
                                 // 色の変化をつけるためにm_QNumsの更新
-                                m_Panel.SetNumHorizon(m_Panel.m_QNums.Horizon.m_list,
-                                    posInt.y, m_Panel.m_UNums.Horizon.m_list);
-                                m_Panel.SetNumVertical(m_Panel.m_QNums.Vertical.m_list,
-                                    posInt.x, m_Panel.m_UNums.Vertical.m_list);
+                                if (m_AssistMode)
+                                {
+                                    m_Panel.SetNumHorizon(m_Panel.m_QNums.Horizon.m_list,
+                                        posInt.y, m_Panel.m_UNums.Horizon.m_list);
+                                    m_Panel.SetNumVertical(m_Panel.m_QNums.Vertical.m_list,
+                                        posInt.x, m_Panel.m_UNums.Vertical.m_list);
+                                } else
+                                {
+                                    m_Panel.SetNumHorizon(m_Panel.m_QNums.Horizon.m_list,
+                                        posInt.y);
+                                    m_Panel.SetNumVertical(m_Panel.m_QNums.Vertical.m_list,
+                                        posInt.x);
+                                }
                                 m_Panel.SetDrawTile(posInt, m_Draw);
                             }
                         }
@@ -127,6 +152,11 @@ namespace Coulank
                         m_Touched = false;
                     }
                 }
+                if (m_button.Judge(Controller.EButtonNum.B, Controller.EButtonMode.Down))
+                {
+                    AssistMode = AssistMode ^ true;
+                }
+
             }
         }
     }

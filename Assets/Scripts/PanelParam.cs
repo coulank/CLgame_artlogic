@@ -255,7 +255,9 @@ namespace Coulank
 
             public void OnEnable()
             {
-                GameObject borderObject = GameObject.FindGameObjectsWithTag("Border")[0];
+                var bd = GameObject.FindGameObjectsWithTag("Border");
+                if (bd.Length == 0) return;
+                GameObject borderObject = bd[0];
                 m_BorderGridTile = borderObject.GetComponentInChildren<Tilemap>();
                 GameObject numberObject = GameObject.FindGameObjectsWithTag("Number")[0];
                 m_NumberTile = numberObject.GetComponentInChildren<Tilemap>();
@@ -308,7 +310,9 @@ namespace Coulank
                     {
                         EColor eColor = verticals[x][y].m_ecolor;
                         int num = verticals[x][y].m_num;
-                        if (comp.Count > x)
+                        bool bCompCount = (comp.Count > x);
+                        if (bCompCount) bCompCount = (verticals[x].Count >= comp[x].Count);
+                        if (bCompCount)
                         {
                             for (int i = ci; i < comp[x].Count; i++)
                             {
@@ -369,7 +373,9 @@ namespace Coulank
                     {
                         EColor eColor = horizons[y][x].m_ecolor;
                         int num = horizons[y][x].m_num;
-                        if (comp.Count > y)
+                        bool bCompCount = (comp.Count > y);
+                        if (bCompCount) bCompCount = (horizons[x].Count >= comp[x].Count);
+                        if (bCompCount)
                         {
                             for (int i = ci; i < comp[y].Count; i++)
                             {
