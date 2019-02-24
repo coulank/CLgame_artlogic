@@ -645,8 +645,8 @@ namespace Coulank.Controller
 
     public class Controller : MonoBehaviour
     {
-        public List<ConObj> m_controller = new List<ConObj>();
-        public ControllerEvents m_globalControllerEvents = new ControllerEvents();
+        public List<ConObj> controller = new List<ConObj>();
+        public ControllerEvents globalControllerEvents = new ControllerEvents();
 
         static protected List<EButtonNum> GetListButtonType()
         {
@@ -758,13 +758,13 @@ namespace Coulank.Controller
             public Vector2 MoveStick, RotStick;
             public Vector2 LeftStick, RightStick, neko;
         }
-        [SerializeField] public InputInspector m_inputInspector = new InputInspector();
+        [SerializeField] public InputInspector inputInspector = new InputInspector();
 
         /// <summary>
         /// ここで指定するプロパティは動的に複数管理できることを想定
         /// </summary>
-        public PropertyClass Property { get { return m_property; } set { m_property = value; } }
-        [SerializeField] private PropertyClass m_property = new PropertyClass();
+        public PropertyClass Property { get { return property; } set { property = value; } }
+        [SerializeField] private PropertyClass property = new PropertyClass();
         /// <summary>
         /// プロパティ、まとめて設定を管理できる
         /// </summary>
@@ -860,14 +860,15 @@ namespace Coulank.Controller
         /// .Down 押した瞬間だけ発生
         /// .Up 離した瞬間だけ発生
         /// </summary>
-        public ButtonObj Button { get { return m_button; } set { m_button = value; } }
-        protected ButtonObj m_button = new ButtonObj();
+        public ButtonObj Button { get { return button; } set { button = value; } }
+        protected ButtonObj button = new ButtonObj();
         [NonSerialized] public EButtonNum VirtualButton = 0;
         /// <summary>スティックオブジェクト</summary>
-        public StickObj Stick { get { return m_stick; } set { m_stick = value; } }
-        public StickObj m_stick = new StickObj();
+        public StickObj Stick { get { return stick; } set { stick = value; } }
+        public StickObj stick = new StickObj();
         /// <summary>補正クラス</summary>
         static public CompPoint CompObj { get; private set; } = new CompPoint();
+        FModifierKeys modifierKeys = new FModifierKeys();
 
         private int controllerCount;
         public string[] ControllerNames;
@@ -912,11 +913,11 @@ namespace Coulank.Controller
     };
         public EConType Sys_ConType { get; private set; }
         /// <summary>コントローラーの種類</summary>
-        private EConType m_conType;
+        private EConType conType;
         public EConType ConType
         {
             set { BuildOfType(value); }
-            get { return m_conType; }
+            get { return conType; }
         }
         /// <summary>現在のコントローラ名やコントローラID</summary>
         public string JoystickName = "All";
@@ -944,7 +945,7 @@ namespace Coulank.Controller
         public void Add(EKeyType _keytype = EKeyType.Key, EButtonNum _button = 0, int _num = 1, string _keyname = "", bool _reverse = false, float _dead = 0.1f,
             EPosType _pos = EPosType.Left, EAxis _pnt = EAxis.X)
         {
-            m_controller.Add(new ConObj(this, _keytype, _button, _num, _keyname, _reverse, _dead, _pos, _pnt));
+            controller.Add(new ConObj(this, _keytype, _button, _num, _keyname, _reverse, _dead, _pos, _pnt));
         }
         /// <summary>通常のコンストラクタ、コントローラーオブジェクトの初期化</summary>
         public static Controller Create(Controller _controller = null, EConType contype = EConType.Default,
@@ -992,7 +993,7 @@ namespace Coulank.Controller
         /// <summary>テンプレ設置、後で追加することもできる</summary>
         public void SetTemp(ConTempSet templates)
         {
-            m_controller.AddRange(ConTempSet.OutUseList(this, templates));
+            controller.AddRange(ConTempSet.OutUseList(this, templates));
         }
 
         public void KeySwapLocal(EButtonNum b1, EButtonNum b2, bool oneway = false)
@@ -1109,15 +1110,15 @@ namespace Coulank.Controller
             EButtonNum[] touchButtonNames;
             EButtonMode[] touchesButtonModes;
             if (TouchedTapMode) {
-                touchVectorModes = m_property.TouchVectorMode;
-                touchButtonNames = m_property.TouchesButtonName;
-                touchesButtonModes = m_property.TouchesButtonMode;
+                touchVectorModes = property.TouchVectorMode;
+                touchButtonNames = property.TouchesButtonName;
+                touchesButtonModes = property.TouchesButtonMode;
             }
             else
             {
-                touchVectorModes = m_property.MouseVectorMode;
-                touchButtonNames = m_property.MouseButtonName;
-                touchesButtonModes = m_property.MouseButtonMode;
+                touchVectorModes = property.MouseVectorMode;
+                touchButtonNames = property.MouseButtonName;
+                touchesButtonModes = property.MouseButtonMode;
             }
             if (TouchedPress)
             {
@@ -1129,7 +1130,7 @@ namespace Coulank.Controller
                         TouchesTime[i] = 0;
                         TouchesSwipeMode[i] = false;
                         TouchesDownPosition[i] = TouchesPosition[i];
-                        if (m_property.TouchButtonFlag)
+                        if (property.TouchButtonFlag)
                         {
                             if ((touchesButtonModes[i]
                                 & (EButtonMode.Down)) > 0)
@@ -1142,9 +1143,9 @@ namespace Coulank.Controller
                     if (TouchesPress[i])
                     {
                         TouchesTime[i] += Time.deltaTime;
-                        if (m_property.TouchButtonFlag)
+                        if (property.TouchButtonFlag)
                         {
-                            if ((m_property.TouchesButtonMode[i]
+                            if ((property.TouchesButtonMode[i]
                                 & (EButtonMode.Press | EButtonMode.Repeat | EButtonMode.Double)) > 0)
                             {
                                 VirtualButton |= touchButtonNames[i];
@@ -1157,7 +1158,7 @@ namespace Coulank.Controller
 
                         mag = TouchesVector[i].magnitude;
                         if (!TouchesSwipeMode[i])
-                            if (mag > m_property.SwipeDead)
+                            if (mag > property.SwipeDead)
                                 TouchesSwipeMode[i] = true;
                         Vector2 vector2 = TouchesVector[i];
                         float delta_mag = 1f;
@@ -1165,26 +1166,26 @@ namespace Coulank.Controller
                         switch (controllVector)
                         {
                             case EPosType.Rot:
-                                vector2 = TouchesDeltaVector[i] * m_property.TouchRotReverseComp;
-                                delta_mag = m_property.TouchDeltaMagnitude;
+                                vector2 = TouchesDeltaVector[i] * property.TouchRotReverseComp;
+                                delta_mag = property.TouchDeltaMagnitude;
                                 break;
                         }
                         if (controllVector != EPosType.None)
                             if (TouchesSwipeMode[i])
                             {
                                 Stick.SetMost(controllVector,
-                                    VecComp.ConvMag(vector2, m_property.SwipeMaxRadius), delta_mag);
+                                    VecComp.ConvMag(vector2, property.SwipeMaxRadius), delta_mag);
                             }
                     }
                     if (TouchesUp[i])
                     {
-                        if (m_property.TouchButtonFlag)
+                        if (property.TouchButtonFlag)
                         {
-                            if ((m_property.TouchesButtonMode[i] & (EButtonMode.Up)) > 0)
+                            if ((property.TouchesButtonMode[i] & (EButtonMode.Up)) > 0)
                             {
                                 VirtualButton |= touchButtonNames[i];
                             }
-                            else if ((m_property.TouchesButtonMode[i] & (EButtonMode.Click)) > 0)
+                            else if ((property.TouchesButtonMode[i] & (EButtonMode.Click)) > 0)
                             {
                                 if (!TouchesSwipeMode[i]) VirtualButton |= touchButtonNames[i];
                             }
@@ -1201,14 +1202,22 @@ namespace Coulank.Controller
             if (!TouchedPress) TouchedSwipeMode = false;
             foreach (bool tds in TouchesSwipeMode) TouchedSwipeMode |= tds;
 
+            modifierKeys.Clear();
+            modifierKeys.Ctrl = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl)
+                 || Input.GetKey(KeyCode.LeftCommand) || Input.GetKey(KeyCode.RightCommand);
+            modifierKeys.Alt = Input.GetKey(KeyCode.LeftAlt) || Input.GetKey(KeyCode.RightAlt);
+            modifierKeys.Shift = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+            var modifier = modifierKeys.Ctrl || modifierKeys.Alt || modifierKeys.Shift;
+
             // ボタン周り取得する
-            foreach (ConObj con in m_controller)
-                VirtualButton |= con.UpdateButton(m_property.ConKeyboard);
+            foreach (ConObj con in controller)
+                VirtualButton |= con.UpdateButton(property.ConKeyboard);
+            VirtualButton |= (Input.anyKey && !(modifier)) ? EButtonNum.KEYBOARD : EButtonNum.NONE;
             if ((VirtualButton & EButtonNum.ANY_ARROW) != 0)
-                if (m_property.ArrowToMove)
+                if (property.ArrowToMove)
                 {
                     Vector2 vc2 = Vector2.zero;
-                    float srg = m_property.ArrowKeyStrange;
+                    float srg = property.ArrowKeyStrange;
                     // キー入力をMoveに落とし込む
                     if (ButtonObj.Judge(EButtonNum.UP | EButtonNum.DOWN, VirtualButton))
                         vc2.y = ((ButtonObj.Judge(EButtonNum.UP, VirtualButton)) ? (Yreverse ? srg : -srg) : 0)
@@ -1227,12 +1236,12 @@ namespace Coulank.Controller
                             + ((ButtonObj.Judge(EButtonNum.R_RIGHT, VirtualButton)) ? srg : 0);
                     Stick[EPosType.Rot] = VecComp.SetCurcler(Stick[EPosType.Rot], vc2);
                 }
-            if (m_property.MoveToArrow)
+            if (property.MoveToArrow)
             {
                 // Moveから方向キーを取得
                 Vector2 smov = Stick[EPosType.Move];
                 float rot = VecComp.ToAbsDeg(smov);
-                if (smov.magnitude > m_property.MoveArrowDead)
+                if (smov.magnitude > property.MoveArrowDead)
                 {
                     if (160f > rot && rot > 20f) VirtualButton |= Yreverse ? EButtonNum.UP : EButtonNum.DOWN;
                     if (250f > rot && rot > 110f) VirtualButton |= EButtonNum.LEFT;
@@ -1242,7 +1251,7 @@ namespace Coulank.Controller
                 // Rotから方向キーを取得
                 smov = Stick[EPosType.Rot];
                 rot = VecComp.ToAbsDeg(smov);
-                if (smov.magnitude > m_property.MoveArrowDead)
+                if (smov.magnitude > property.MoveArrowDead)
                 {
                     if (160f > rot && rot > 20f) VirtualButton |= Yreverse ? EButtonNum.R_UP : EButtonNum.R_DOWN;
                     if (250f > rot && rot > 110f) VirtualButton |= EButtonNum.R_LEFT;
@@ -1304,14 +1313,14 @@ namespace Coulank.Controller
                 }
             }
 
-            if (m_property.ButtonZLR_Reverse)
+            if (property.ButtonZLR_Reverse)
             {
                 KeySwapLocal(EButtonNum.L, EButtonNum.ZL);
                 KeySwapLocal(EButtonNum.R, EButtonNum.ZR);
             }
-            Stick[EPosType.Rot] *= m_property.RotReverseComp;
+            Stick[EPosType.Rot] *= property.RotReverseComp;
             VirtualButton = 0;
-            m_globalControllerEvents.Update(this);
+            globalControllerEvents.Update(this);
         }
 
         // デフォルトで生成されるキーコンフィグデータ
@@ -1329,13 +1338,13 @@ namespace Coulank.Controller
                 }
                 if (contype == EConType.Default) contype = EConType.Xinput;
                 BuildOfType(contype);
-                m_conType = EConType.Default;
+                conType = EConType.Default;
                 return;
             }
-            m_conType = contype;
-            Sys_ConType = m_conType;
+            conType = contype;
+            Sys_ConType = conType;
 
-            m_controller.Clear();
+            controller.Clear();
             if (contype == EConType.Other) return;   // Otherは各自でAddすることを想定
             SetTemp(ConTempSet.UserFirstTemplate);
             SetTemp(ConTempSet.CommonTemplate);
@@ -1390,7 +1399,7 @@ namespace Coulank.Controller
         }
         void Start()
         {
-            m_globalControllerEvents.ParentObject = gameObject;
+            globalControllerEvents.ParentObject = gameObject;
             Create(this, currentConType);
             activeJoystickCount = JoystickCount();
             Update();
@@ -1406,19 +1415,19 @@ namespace Coulank.Controller
             ControllerNames = Input.GetJoystickNames();
             ControllerUpdate();
 
-            m_inputInspector.TouchPosition = TouchesPosition[0];
-            m_inputInspector.TouchVector = TouchesVector[0];
-            m_inputInspector.LeftStick = Stick[EPosType.Left];
-            m_inputInspector.RightStick = Stick[EPosType.Right];
-            m_inputInspector.MoveStick = Stick[EPosType.Move];
-            m_inputInspector.RotStick = Stick[EPosType.Rot];
+            inputInspector.TouchPosition = TouchesPosition[0];
+            inputInspector.TouchVector = TouchesVector[0];
+            inputInspector.LeftStick = Stick[EPosType.Left];
+            inputInspector.RightStick = Stick[EPosType.Right];
+            inputInspector.MoveStick = Stick[EPosType.Move];
+            inputInspector.RotStick = Stick[EPosType.Rot];
 
-            m_button = Button;
-            m_inputInspector.PressButtonInt = (int)m_button[EButtonMode.Press];
-            m_inputInspector.PressButton = ButtonObj.ResultButton((EButtonNum)m_inputInspector.PressButtonInt);
+            button = Button;
+            inputInspector.PressButtonInt = (int)button[EButtonMode.Press];
+            inputInspector.PressButton = ButtonObj.ResultButton((EButtonNum)inputInspector.PressButtonInt);
 
-            if (m_button.Judge((EButtonNum)13056, EButtonMode.Delay, true)) { Quit(); }
-            if (m_button.Judge(EButtonNum.ESC, EButtonMode.DelayDown)) { Quit(); }
+            if (button.Judge((EButtonNum)13056, EButtonMode.Delay, true)) { Quit(); }
+            if (button.Judge(EButtonNum.ESC, EButtonMode.DelayDown)) { Quit(); }
         }
     }
 }

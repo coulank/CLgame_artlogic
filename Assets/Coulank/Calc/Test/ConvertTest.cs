@@ -6,42 +6,42 @@ namespace Coulank.Convert
 {
     public class ConvertTest : MonoBehaviour
     {
-        [SerializeField] int m_Shifted = 0;
-        [SerializeField] int m_Frequency = 1;
+        [SerializeField] int Shifted = 0;
+        [SerializeField] int Frequency = 1;
         [ContextMenuItem("Byte配列に変換する", "Exec_Base642Byte")]
-        [SerializeField] string m_Base64 = null;
+        [SerializeField] string Base64 = null;
         [ContextMenuItem("Byte配列に変換する", "Exec_Hex2Byte")]
-        [SerializeField] string m_Hex = null;
+        [SerializeField] string Hex = null;
         [ContextMenuItem("Bool配列に変換する", "Exec_Byte2Bool")]
         [ContextMenuItem("Base64に変換する", "Exec_Byte2Base64")]
         [ContextMenuItem("16進数に変換する", "Exec_Byte2Hex")]
-        [SerializeField] byte[] m_Bytes = null;
+        [SerializeField] byte[] Bytes = null;
         [ContextMenuItem("Byte配列に変換する", "Exec_Bool2Byte")]
-        [SerializeField] bool[] m_Bools = null;
+        [SerializeField] bool[] Bools = null;
 
         void Exec_Byte2Bool()
         {
-            m_Bools = Cast.Byte2Bool(m_Bytes, m_Shifted, m_Frequency);
+            Bools = Cast.Byte2Bool(Bytes, Shifted, Frequency);
         }
         void Exec_Bool2Byte()
         {
-            m_Bytes = Cast.Bool2Byte(m_Bools, m_Shifted, m_Frequency);
+            Bytes = Cast.Bool2Byte(Bools, Shifted, Frequency);
         }
         void Exec_Hex2Byte()
         {
-            m_Bytes = Compress.ByteDecompress(Cast.Str2Byte(m_Hex));
+            Bytes = Compress.ByteDecompress(Cast.Str2Byte(Hex));
         }
         void Exec_Byte2Hex()
         {
-            m_Hex = Cast.Byte2Str(Compress.ByteCompress(m_Bytes));
+            Hex = Cast.Byte2Str(Compress.ByteCompress(Bytes));
         }
         void Exec_Byte2Base64()
         {
-            m_Base64 = Cast.Byte2Str(Compress.ByteCompress(m_Bytes), EStringByte.Base64);
+            Base64 = Cast.Byte2Str(Compress.ByteCompress(Bytes), EStringByte.Base64);
         }
         void Exec_Base642Byte()
         {
-            m_Bytes = Compress.ByteDecompress(Cast.Str2Byte(m_Base64, EStringByte.Base64));
+            Bytes = Compress.ByteDecompress(Cast.Str2Byte(Base64, EStringByte.Base64));
         }
 
         [ContextMenu("test")]

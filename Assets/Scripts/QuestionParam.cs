@@ -6,18 +6,18 @@ public class QuestionParam : ScriptableObject
 {
     [SerializeField]
     [ContextMenuItem("設定したテクスチャの反映", "SetDataFromInspector")]
-    public Sprite m_Sprite;
-    public string m_Title;
-    public string m_Answer;
+    public Sprite Sprite;
+    public string Title;
+    public string Answer;
     [TextArea]
-    public string m_Comment;
+    public string Comment;
     [Range(0, 15)]
-    public int m_Threshold = 7;
+    public int Threshold = 7;
     [SerializeField]
-    byte[] m_Data;
+    byte[] data;
     public byte[] Data
     {
-        get { return m_Data; }
+        get { return data; }
     }
     [ContextMenu("Json形式で書きだす")]
     public void WriteOut()
@@ -28,15 +28,15 @@ public class QuestionParam : ScriptableObject
     [ContextMenu("設定したテクスチャの反映")]
     public void SetDataFromInspector()
     {
-        if (m_Sprite == null)
+        if (Sprite == null)
         {
             Debug.Log("Sprite is null");
             return;
         }
-        if (m_Sprite.texture.isReadable)
+        if (Sprite.texture.isReadable)
         {
             SetData();
-            Debug.Log(string.Format("{0} out of Binary data!", m_Sprite.name));
+            Debug.Log(string.Format("{0} out of Binary data!", Sprite.name));
         }
         else
         {
@@ -45,8 +45,8 @@ public class QuestionParam : ScriptableObject
     }
     public void SetData()
     {
-        if (m_Sprite == null) return;
-        Texture2D image = m_Sprite.texture;
+        if (Sprite == null) return;
+        Texture2D image = Sprite.texture;
         if (image.isReadable)
         {
             Color[] pixels = image.GetPixels(0, 0, image.width, image.height);
@@ -68,8 +68,8 @@ public class QuestionParam : ScriptableObject
                     | ((color.b > 0.5) ? (1 << 6) : 0)
                     );
             }
-            //m_Data = data;
-            m_Data = Compress.ByteCompress(data);
+            //Data = data;
+            this.data = Compress.ByteCompress(data);
         }
     }
 }

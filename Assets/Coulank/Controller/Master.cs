@@ -8,31 +8,31 @@ namespace Coulank.Controller
     [DefaultExecutionOrder(0xF)]
     public class Master : MonoBehaviour
     {
-        [NonSerialized] public GameObject m_gameController = null;
+        [NonSerialized] public GameObject GameController = null;
         // 内部以外は読み取り専用にする
-        public Controller m_controller { get; private set; }
-        public FollowController m_follow { get; private set; }
-        public ButtonObj m_button { get; private set; }
-        public StickObj m_stick { get; private set; }
+        public Controller Controller { get; private set; }
+        public FollowController Follow { get; private set; }
+        public ButtonObj Button { get; private set; }
+        public StickObj Stick { get; private set; }
         // コントローラーイベントはクラス共通
-        public ControllerEvents m_controllerEvents = new ControllerEvents();
+        public ControllerEvents ControllerEvents = new ControllerEvents();
 
         public void Start()
         {
-            m_controllerEvents.ParentObject = gameObject;
+            ControllerEvents.ParentObject = gameObject;
 
-            m_gameController = Controller.GetGameMain(m_gameController);
-            m_controller = m_gameController.GetComponent<Controller>();
-            m_follow = m_gameController.GetComponent<FollowController>();
+            GameController = Controller.GetGameMain(GameController);
+            Controller = GameController.GetComponent<Controller>();
+            Follow = GameController.GetComponent<FollowController>();
             Update();
         }
         public void Update()
         {
-            if (m_controller != null)
+            if (Controller != null)
             {
-                m_button = m_controller.Button;
-                m_stick = m_controller.Stick;
-                m_controllerEvents.Update(m_controller);
+                Button = Controller.Button;
+                Stick = Controller.Stick;
+                ControllerEvents.Update(Controller);
 
             }
         }

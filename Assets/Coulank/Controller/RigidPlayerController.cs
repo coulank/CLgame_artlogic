@@ -9,47 +9,47 @@ namespace Coulank.Controller
         [Serializable]
         public struct Property
         {
-            public EButtonNum m_jumpButton;
-            public EButtonMode m_jumpMode;
-            public Vector3 m_jumpVector;
-            public int m_hoverMaxCount;
-            public Vector3 m_hoverVector;
-            public Vector3 m_moveToVector;
-            public Vector3 m_forceVector;
-            public Vector3 m_biasForceVector;
-            public Vector3 m_maxVelocity;
-            public Vector3 m_biasMaxVelocity;
+            public EButtonNum jumpButton;
+            public EButtonMode jumpMode;
+            public Vector3 jumpVector;
+            public int hoverMaxCount;
+            public Vector3 hoverVector;
+            public Vector3 moveToVector;
+            public Vector3 forceVector;
+            public Vector3 biasForceVector;
+            public Vector3 maxVelocity;
+            public Vector3 biasMaxVelocity;
         }
-        public Property m_property = new Property();
-        private Rigidbody m_rigid = null;
-        private Rigidbody2D m_rigid2 = null;
+        public Property property = new Property();
+        private Rigidbody rigid = null;
+        private Rigidbody2D rigid2 = null;
 
         public void AddForceWithMove()
         {
             Vector3 forceVector;
-            Property ep = m_property;
-            forceVector = Vector3.Scale(ep.m_moveToVector, m_controller.m_stick[EPosType.Move]);
-            if (m_button.Judge(m_property.m_jumpButton, m_property.m_jumpMode))
+            Property ep = property;
+            forceVector = Vector3.Scale(ep.moveToVector, Controller.stick[EPosType.Move]);
+            if (Button.Judge(property.jumpButton, property.jumpMode))
             {
-                if (m_property.m_jumpVector == Vector3.zero) m_property.m_jumpVector = Vector3.up * 500;
-                forceVector = m_property.m_jumpVector + forceVector;
+                if (property.jumpVector == Vector3.zero) property.jumpVector = Vector3.up * 500;
+                forceVector = property.jumpVector + forceVector;
             }
-            forceVector = Vector3.Scale(ep.m_forceVector, forceVector);
-            if (m_rigid != null)
+            forceVector = Vector3.Scale(ep.forceVector, forceVector);
+            if (rigid != null)
             {
-                forceVector = VecComp.LimitForce(forceVector, m_rigid.velocity, ep.m_maxVelocity, ep.m_biasMaxVelocity);
-                m_rigid.AddForce(forceVector);
+                forceVector = VecComp.LimitForce(forceVector, rigid.velocity, ep.maxVelocity, ep.biasMaxVelocity);
+                rigid.AddForce(forceVector);
             }
-            else if (m_rigid2 != null)
+            else if (rigid2 != null)
             {
-                forceVector = VecComp.LimitForce(forceVector, m_rigid2.velocity, ep.m_maxVelocity, ep.m_biasMaxVelocity);
-                m_rigid2.AddForce(forceVector);
+                forceVector = VecComp.LimitForce(forceVector, rigid2.velocity, ep.maxVelocity, ep.biasMaxVelocity);
+                rigid2.AddForce(forceVector);
             }
         }
         new void Start()
         {
-            m_rigid = GetComponent<Rigidbody>();
-            m_rigid2 = GetComponent<Rigidbody2D>();
+            rigid = GetComponent<Rigidbody>();
+            rigid2 = GetComponent<Rigidbody2D>();
             base.Start();
         }
         new void Update()

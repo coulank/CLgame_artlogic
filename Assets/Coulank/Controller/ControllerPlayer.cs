@@ -6,17 +6,17 @@ namespace Coulank.Controller
 {
     public class ControllerPlayer : Master
     {
-        [SerializeField] private GameObject m_defaultGameController = null;
+        [SerializeField] private GameObject defaultGameController = null;
         new void Start()
         {
-            if (m_defaultGameController != null)
-                if (m_gameController == null) m_gameController = m_defaultGameController;
+            if (defaultGameController != null)
+                if (GameController == null) GameController = defaultGameController;
             base.Start();
         }
         new void Update()
         {
             base.Update();
-            if (m_button.Judge(EButtonNum.A)) Debug.Log("test");
+            if (Button.Judge(EButtonNum.A)) Debug.Log("test");
         }
     }
 }

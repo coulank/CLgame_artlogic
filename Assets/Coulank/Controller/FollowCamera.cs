@@ -246,7 +246,7 @@ namespace Coulank.Controller
         {
             if (PermissionController)
             {
-                Vector3 stick_move = m_stick[EPosType.Rot];
+                Vector3 stick_move = Stick[EPosType.Rot];
                 float comp = 4f;
                 if (stick_move != Vector3.zero)
                 {
@@ -257,8 +257,8 @@ namespace Coulank.Controller
                     };
                     EulerAngle += angle_arrow;
                 }
-                Distance -= m_controller.Scroll * DistanceVelocity;
-                if (m_button.Judge(EButtonNum.Y)) { SeeForward(); }
+                Distance -= Controller.Scroll * DistanceVelocity;
+                if (Button.Judge(EButtonNum.Y)) { SeeForward(); }
             }
         }
         new void Update()

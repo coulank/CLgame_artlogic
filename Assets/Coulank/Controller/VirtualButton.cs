@@ -28,15 +28,15 @@ namespace Coulank.Controller
         private Sprite beforeImage = null;
         private Color beforeColor = Color.white;
         [SerializeField]
-        public OnEventClass m_onEvent = new OnEventClass();
+        public OnEventClass OnEvent = new OnEventClass();
         [System.Serializable]
         public class OnEventClass
         {
-            public UnityEvent m_onDown = new UnityEvent();
-            public UnityEvent m_onUp = new UnityEvent();
-            public UnityEvent m_onEnter = new UnityEvent();
-            public UnityEvent m_onExit = new UnityEvent();
-            public UnityEvent m_onClick = new UnityEvent();
+            public UnityEvent OnDown = new UnityEvent();
+            public UnityEvent OnUp = new UnityEvent();
+            public UnityEvent OnEnter = new UnityEvent();
+            public UnityEvent OnExit = new UnityEvent();
+            public UnityEvent OnClick = new UnityEvent();
         }
 
         public void SetUp(object vbn = null)
@@ -99,7 +99,7 @@ namespace Coulank.Controller
         public void OnDown() { }
         private void _onDown(PointerEventData data)
         {
-            m_controller.SetFingerLock(GetFingerFromData(data.position));
+            Controller.SetFingerLock(GetFingerFromData(data.position));
             PressFlag ^= true;
             switch (SwitchMode)
             {
@@ -107,13 +107,13 @@ namespace Coulank.Controller
                     clickFlag = true;
                     break;
             }
-            m_onEvent.m_onDown.Invoke();
+            OnEvent.OnDown.Invoke();
             OnDown();
         }
         public void OnUp() { }
         private void _onUp(PointerEventData data)
         {
-            m_controller.SetFingerUnLock(GetFingerFromData(data.position));
+            Controller.SetFingerUnLock(GetFingerFromData(data.position));
             switch (SwitchMode)
             {
                 case EButtonSwitch.Toggle:
@@ -123,7 +123,7 @@ namespace Coulank.Controller
                     clickFlag = false;
                     break;
             }
-            m_onEvent.m_onUp.Invoke();
+            OnEvent.OnUp.Invoke();
             OnUp();
         }
         public void OnEnter() { }
@@ -135,7 +135,7 @@ namespace Coulank.Controller
                     if (clickFlag) PressFlag = true;
                     break;
             }
-            m_onEvent.m_onEnter.Invoke();
+            OnEvent.OnEnter.Invoke();
             OnEnter();
         }
         public void OnExit() { }
@@ -147,7 +147,7 @@ namespace Coulank.Controller
                     if (clickFlag) PressFlag = false;
                     break;
             }
-            m_onEvent.m_onExit.Invoke();
+            OnEvent.OnExit.Invoke();
             OnExit();
         }
         public void OnClick() { }
@@ -156,11 +156,11 @@ namespace Coulank.Controller
             switch (SwitchMode)
             {
                 case EButtonSwitch.Click:
-                    m_controller.SetVirtualButton(PressButton);
+                    Controller.SetVirtualButton(PressButton);
                     PressFlag = false;
                     break;
             }
-            m_onEvent.m_onClick.Invoke();
+            OnEvent.OnClick.Invoke();
             OnClick();
         }
         public void UpdateDisplay()
@@ -188,7 +188,7 @@ namespace Coulank.Controller
             base.Update();
             if (PressFlag)
             {
-                if (!clickFlag) m_controller.SetVirtualButton(PressButton);
+                if (!clickFlag) Controller.SetVirtualButton(PressButton);
             }
         }
     }

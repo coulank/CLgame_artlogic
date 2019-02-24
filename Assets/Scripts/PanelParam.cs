@@ -93,51 +93,51 @@ namespace Coulank
         public class PanelParam : ScriptableObject
         {
             [SerializeField]
-            public Grid m_Grids;
+            public Grid Grids;
             [SerializeField]
-            public NumberPanel m_Nums;
+            public NumberPanel Nums;
             [SerializeField]
-            public DrawPanel m_Draws;
-            public Tilemap m_BorderGridTile;
-            public Tilemap m_NumberTile;
-            public Dictionary<EColor, NumberPanel> m_ColorNumbers;
-            public Tilemap m_DrawTile;
-            public int m_TopHeight;
-            public int m_LeftWidth;
-            public QuestionParam m_QParam;
+            public DrawPanel Draws;
+            public Tilemap BorderGridTile;
+            public Tilemap NumberTile;
+            public Dictionary<EColor, NumberPanel> ColorNumbers;
+            public Tilemap DrawTile;
+            public int TopHeight;
+            public int LeftWidth;
+            public QuestionParam QParam;
             const int DATA_HEADER = 4;
-            public DicNums m_QNums;
-            public DicNums m_UNums;
+            public DicNums QNums;
+            public DicNums UNums;
             public class CNums
             {
                 public struct Property
                 {
-                    public int m_num;
-                    public EColor m_ecolor;
+                    public int Num;
+                    public EColor Ecolor;
                     public static Property New(int num)
                     {
                         var newPro = new Property();
-                        newPro.m_num = num;
-                        newPro.m_ecolor = EColor.Black;
+                        newPro.Num = num;
+                        newPro.Ecolor = EColor.Black;
                         return newPro;
                     }
                 }
-                public List<List<Property>> m_list;
+                public List<List<Property>> list;
                 public CNums()
                 {
-                    m_list = new List<List<Property>>();
+                    list = new List<List<Property>>();
                 }
                 public List<Property> GetProperties(int li_i)
                 {
-                    int count = m_list.Count;
+                    int count = list.Count;
                     if (count <= li_i)
                     {
                         for (int j = count; j < (li_i + 1); j++)
                         {
-                            m_list.Add(new List<Property>());
+                            list.Add(new List<Property>());
                         }
                     }
-                    return m_list[li_i];
+                    return list[li_i];
                 }
                 public Property GetProperty(int li_i, int pr_i)
                 {
@@ -250,22 +250,22 @@ namespace Coulank
                 return newData;
             }
 
-            public Vector3Int m_OriginPosition = new Vector3Int(0, 0, 0);
-            public int m_Margin = 1;
+            public Vector3Int OriginPosition = new Vector3Int(0, 0, 0);
+            public int Margin = 1;
 
             public void OnEnable()
             {
                 var bd = GameObject.FindGameObjectsWithTag("Border");
                 if (bd.Length == 0) return;
                 GameObject borderObject = bd[0];
-                m_BorderGridTile = borderObject.GetComponentInChildren<Tilemap>();
+                BorderGridTile = borderObject.GetComponentInChildren<Tilemap>();
                 GameObject numberObject = GameObject.FindGameObjectsWithTag("Number")[0];
-                m_NumberTile = numberObject.GetComponentInChildren<Tilemap>();
+                NumberTile = numberObject.GetComponentInChildren<Tilemap>();
                 GameObject drawObject = GameObject.FindGameObjectsWithTag("Draw")[0];
-                m_DrawTile = drawObject.GetComponentInChildren<Tilemap>();
-                m_ColorNumbers = new Dictionary<EColor, NumberPanel>();
-                m_ColorNumbers.Add(EColor.Black, m_Nums);
-                m_ColorNumbers.Add(EColor.Gray, m_Nums.Clone(EColor.Gray));
+                DrawTile = drawObject.GetComponentInChildren<Tilemap>();
+                ColorNumbers = new Dictionary<EColor, NumberPanel>();
+                ColorNumbers.Add(EColor.Black, Nums);
+                ColorNumbers.Add(EColor.Gray, Nums.Clone(EColor.Gray));
 
             }
             [ContextMenu("Json形式で書きだす")]
@@ -284,10 +284,10 @@ namespace Coulank
                 if (verticals[x].Count > 0) {
                     for (int y = 0; y < verticals[x].Count; y++)
                     {
-                        SetNumTile(verticals[x][y].m_num,
+                        SetNumTile(verticals[x][y].Num,
                             new Vector2Int(x , -verticals[x].Count + y));
                     }
-                    Calc.ValueSet.Max(m_TopHeight, verticals[x].Count);
+                    Calc.ValueSet.Max(TopHeight, verticals[x].Count);
                 }
                 else
                 {
@@ -308,8 +308,8 @@ namespace Coulank
                     int ci = 0;
                     for (int y = 0; y < verticals[x].Count; y++)
                     {
-                        EColor eColor = verticals[x][y].m_ecolor;
-                        int num = verticals[x][y].m_num;
+                        EColor eColor = verticals[x][y].Ecolor;
+                        int num = verticals[x][y].Num;
                         bool bCompCount = (comp.Count > x);
                         if (bCompCount) bCompCount = (verticals[x].Count >= comp[x].Count);
                         if (bCompCount)
@@ -317,12 +317,12 @@ namespace Coulank
                             for (int i = ci; i < comp[x].Count; i++)
                             {
                                 ci = i;
-                                if (num == comp[x][ci].m_num
-                                    && eColor == comp[x][ci].m_ecolor) break;
+                                if (num == comp[x][ci].Num
+                                    && eColor == comp[x][ci].Ecolor) break;
                             }
                             if (comp[x].Count > ci)
                             {
-                                if (num == comp[x][ci].m_num)
+                                if (num == comp[x][ci].Num)
                                 {
                                     eColor = EColor.Gray;
                                 }
@@ -330,7 +330,7 @@ namespace Coulank
                         }
                         SetNumTile(num, new Vector2Int(x, -verticals[x].Count + y), eColor);
                     }
-                    Calc.ValueSet.Max(m_TopHeight, verticals[x].Count);
+                    Calc.ValueSet.Max(TopHeight, verticals[x].Count);
                 }
                 else
                 {
@@ -349,9 +349,9 @@ namespace Coulank
                 {
                     for (int x = 0; x < horizons[y].Count; x++)
                     {
-                        SetNumTile(horizons[y][x].m_num,
+                        SetNumTile(horizons[y][x].Num,
                             new Vector2Int(-horizons[y].Count + x, y));
-                        Calc.ValueSet.Max(m_LeftWidth, horizons[y].Count);
+                        Calc.ValueSet.Max(LeftWidth, horizons[y].Count);
                     }
                 } else
                 {
@@ -371,8 +371,8 @@ namespace Coulank
                     int ci = 0;
                     for (int x = 0; x < horizons[y].Count; x++)
                     {
-                        EColor eColor = horizons[y][x].m_ecolor;
-                        int num = horizons[y][x].m_num;
+                        EColor eColor = horizons[y][x].Ecolor;
+                        int num = horizons[y][x].Num;
                         bool bCompCount = (comp.Count > y);
                         if (bCompCount) bCompCount = (horizons[x].Count >= comp[x].Count);
                         if (bCompCount)
@@ -380,17 +380,17 @@ namespace Coulank
                             for (int i = ci; i < comp[y].Count; i++)
                             {
                                 ci = i;
-                                if (num == comp[y][ci].m_num
-                                    && eColor == comp[y][ci].m_ecolor) break;
+                                if (num == comp[y][ci].Num
+                                    && eColor == comp[y][ci].Ecolor) break;
                             }
                             if (comp[y].Count > ci)
-                                if (num == comp[y][ci].m_num)
+                                if (num == comp[y][ci].Num)
                                 {
                                     eColor = EColor.Gray;
                                 }
                         }
                         SetNumTile(num, new Vector2Int(-horizons[y].Count + x, y), eColor);
-                        Calc.ValueSet.Max(m_LeftWidth, horizons[y].Count);
+                        Calc.ValueSet.Max(LeftWidth, horizons[y].Count);
                     }
                 } else
                 {
@@ -403,13 +403,13 @@ namespace Coulank
             /// <param name="dnums">番号ステータス</param>
             public void SetNumTile(DicNums dnums)
             {
-                m_TopHeight = 4; m_LeftWidth = 4;
-                List<List<CNums.Property>> verticals = dnums.Vertical.m_list;
+                TopHeight = 4; LeftWidth = 4;
+                List<List<CNums.Property>> verticals = dnums.Vertical.list;
                 for (int x = 0; x < verticals.Count; x++)   // ||の並び
                 {
                     SetNumVertical(verticals, x);
                 }
-                List<List<CNums.Property>> horizons = dnums.Horizon.m_list;
+                List<List<CNums.Property>> horizons = dnums.Horizon.list;
                 for (int y = 0; y < horizons.Count; y++)    // =の並び
                 {
                     SetNumHorizon(horizons, y);
@@ -422,16 +422,16 @@ namespace Coulank
             /// <param name="compDnums">比較ステータス、ユーザーによる入力</param>
             public void SetNumTile(DicNums dnums, DicNums compDnums)
             {
-                m_TopHeight = 4; m_LeftWidth = 4;
-                List<List<CNums.Property>> verticals = dnums.Vertical.m_list;
+                TopHeight = 4; LeftWidth = 4;
+                List<List<CNums.Property>> verticals = dnums.Vertical.list;
                 for (int x = 0; x < verticals.Count; x++)   // ||の並び
                 {
-                    SetNumVertical(verticals, x, compDnums.Vertical.m_list);
+                    SetNumVertical(verticals, x, compDnums.Vertical.list);
                 }
-                List<List<CNums.Property>> horizons = dnums.Horizon.m_list;
+                List<List<CNums.Property>> horizons = dnums.Horizon.list;
                 for (int y = 0; y < horizons.Count; y++)    // =の並び
                 {
-                    SetNumHorizon(horizons, y, compDnums.Horizon.m_list);
+                    SetNumHorizon(horizons, y, compDnums.Horizon.list);
                 }
             }
             /// <summary>
@@ -440,24 +440,24 @@ namespace Coulank
             /// <param name="dnums">番号ステータス</param>
             public void SetNumTile(DicNums dnums, int x, int y)
             {
-                SetNumVertical(dnums.Vertical.m_list, x);
-                SetNumHorizon(dnums.Horizon.m_list, y);
+                SetNumVertical(dnums.Vertical.list, x);
+                SetNumHorizon(dnums.Horizon.list, y);
             }
             /// <summary>
             /// 数字タイルの配置
             /// </summary>
             /// <param name="num">配置したい数字、0～99</param>
             /// <param name="position">配置したい座標、Gridに沿って配置</param>
-            /// <param name="eColor">指定したい色、m_ColorNumbersの定義必要</param>
+            /// <param name="eColor">指定したい色、ColorNumbersの定義必要</param>
             public void SetNumTile(int num, Vector2Int position, 
                 EColor eColor = EColor.Black)
             {
                 Tile leftTile, rightTile;
                 NumberPanel nums;
-                if (m_ColorNumbers.ContainsKey(eColor))
-                    nums = m_ColorNumbers[eColor];
+                if (ColorNumbers.ContainsKey(eColor))
+                    nums = ColorNumbers[eColor];
                 else
-                    nums = m_Nums;
+                    nums = Nums;
                 if (num < 10)
                 {
                     leftTile = nums.OnesPlaces[num].LeftPlace;
@@ -471,11 +471,11 @@ namespace Coulank
                     leftTile = nums.TensPlaces[ten].LeftPlace;
                     rightTile = nums.TensPlaces[one].RightPlace;
                 }
-                Vector3Int vl = new Vector3Int((m_OriginPosition.x + position.x) * 2, m_OriginPosition.y - position.y - 1, 0);
+                Vector3Int vl = new Vector3Int((OriginPosition.x + position.x) * 2, OriginPosition.y - position.y - 1, 0);
                 Vector3Int vr = new Vector3Int(vl.x + 1, vl.y, 0);
                 //Debug.Log(string.Format("left:{0}, right:{1}", vl, vr));
-                m_NumberTile.SetTile(vl, leftTile);
-                m_NumberTile.SetTile(vr, rightTile);
+                NumberTile.SetTile(vl, leftTile);
+                NumberTile.SetTile(vr, rightTile);
             }
             /// <summary>
             /// タイルから描画用の座標を取得する
@@ -489,7 +489,7 @@ namespace Coulank
             /// </summary>
             public void SetDrawTile(Vector2Int pos)
             {
-                SetDrawTile(pos.x, pos.y, m_Draws.Fill);
+                SetDrawTile(pos.x, pos.y, Draws.Fill);
             }
             /// <summary>
             /// 描画用の座標でタイルを指定して塗る
@@ -503,15 +503,15 @@ namespace Coulank
             /// </summary>
             public void SetDrawTile(int x, int y, Tile tile)
             {
-                Vector3Int v = new Vector3Int(m_OriginPosition.x + x,
-                    m_OriginPosition.y - y - 1, 0);
-                m_DrawTile.SetTile(v, tile);
+                Vector3Int v = new Vector3Int(OriginPosition.x + x,
+                    OriginPosition.y - y - 1, 0);
+                DrawTile.SetTile(v, tile);
             }
             /// 描画配列から自動的に塗る
             public void SetDrawTile(byte[] udata)
             {
-                m_DrawTile.origin = m_OriginPosition;
-                m_DrawTile.ClearAllTiles();
+                DrawTile.origin = OriginPosition;
+                DrawTile.ClearAllTiles();
                 Tile tile;
                 int width = udata[2];
                 for (int i = 4; i <udata.Length; i++)
@@ -520,13 +520,13 @@ namespace Coulank
                     int y = Mathf.FloorToInt((i - 4) / width);
                     if ((udata[i] & 1) > 0)
                     {
-                        tile = m_Draws.Fill;
+                        tile = Draws.Fill;
                     } else if ((udata[i] & 4) > 0)
                     {
-                        tile = m_Draws.Check;
+                        tile = Draws.Check;
                     } else
                     {
-                        tile = m_Draws.Blank;
+                        tile = Draws.Blank;
                     }
                     SetDrawTile(x, y, tile);
                 }
@@ -534,8 +534,8 @@ namespace Coulank
             }
             public void QDataLoad()
             {
-                if (m_QParam == null) return;
-                QData = Convert.Compress.ByteDecompress(m_QParam.Data);
+                if (QParam == null) return;
+                QData = Convert.Compress.ByteDecompress(QParam.Data);
             }
             public static bool AUDataJudge(byte[] auData, int x, int y)
             {
@@ -727,24 +727,24 @@ namespace Coulank
                     Debug.Log("設問データが設定されておりません");
                     return;
                 }
-                m_NumberTile.origin = m_OriginPosition;
-                m_NumberTile.ClearAllTiles();
+                NumberTile.origin = OriginPosition;
+                NumberTile.ClearAllTiles();
                 SetAData();
                 int width = QData[2];
                 int height = QData[3];
                 for (int i = 4; i < AData.Length; i++)
                 {
-                    bool judge = DataJudge(QData, i, m_QParam.m_Threshold);
+                    bool judge = DataJudge(QData, i, QParam.Threshold);
                     AData[i] = (byte)(judge ? 1 : 0);
                 }
-                m_QNums = new DicNums();
+                QNums = new DicNums();
                 for (int i = 0; i < width; i++)
                 {
-                    SetHorizon(m_QNums, AData, i);
+                    SetHorizon(QNums, AData, i);
                 }
                 for (int i = 0; i < height; i++)
                 {
-                    SetVertical(m_QNums, AData, i);
+                    SetVertical(QNums, AData, i);
                 }
             }
             public void UDataMapping()
@@ -753,8 +753,8 @@ namespace Coulank
             }
             public void UDataMapping(byte[] uData)
             {
-                m_DrawTile.origin = m_OriginPosition;
-                m_DrawTile.ClearAllTiles();
+                DrawTile.origin = OriginPosition;
+                DrawTile.ClearAllTiles();
                 if (uData == null)
                 {
                     SetUData();
@@ -763,37 +763,37 @@ namespace Coulank
                     UData = uData;
                 int width = UData[2];
                 int height = UData[3];
-                m_UNums = new DicNums();
+                UNums = new DicNums();
                 for (int i = 0; i < width; i++)
                 {
-                    SetHorizon(m_UNums, UData, i);
+                    SetHorizon(UNums, UData, i);
                 }
                 for (int i = 0; i < height; i++)
                 {
-                    SetVertical(m_UNums, UData, i);
+                    SetVertical(UNums, UData, i);
                 }
             }
             public void QParamSetup(QuestionParam qParam)
             {
-                m_QParam = qParam;
+                QParam = qParam;
                 QDataLoad();
                 QDataMapping();
                 UDataMapping();
-                SetNumTile(m_QNums, m_UNums);
+                SetNumTile(QNums, UNums);
                 SetDrawTile(UData);
             }
 
             public void TestDataToDraw(byte[] data, int threshold = 7)
             {
-                m_NumberTile.origin = m_OriginPosition;
-                m_NumberTile.ClearAllTiles();
+                NumberTile.origin = OriginPosition;
+                NumberTile.ClearAllTiles();
                 List<bool> pixelJudges = new List<bool>();
                 int width = data[2];
                 int height = data[3];
                 int leftWidth = 4;
                 int topHeight = 4;
-                Tilemap tilemap = m_DrawTile;
-                tilemap.origin = m_OriginPosition;
+                Tilemap tilemap = DrawTile;
+                tilemap.origin = OriginPosition;
                 tilemap.ClearAllTiles();
                 for (int j = 4; j < data.Length; j++)
                 {
@@ -801,8 +801,8 @@ namespace Coulank
                     int x = Mathf.FloorToInt((i) % width);
                     int y = Mathf.FloorToInt((i) / width);
                     pixelJudges.Add((data[j] & 15) >= threshold);
-                    Vector3Int v = new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0);
-                    if (pixelJudges[i]) tilemap.SetTile(v, m_Draws.Fill);
+                    Vector3Int v = new Vector3Int(OriginPosition.x + x, OriginPosition.y - y - 1, 0);
+                    if (pixelJudges[i]) tilemap.SetTile(v, Draws.Fill);
                 }
                 List<List<int>> verticals = new List<List<int>>();
                 List<List<int>> horizons = new List<List<int>>();
@@ -885,17 +885,17 @@ namespace Coulank
             {
                 num_width = (num_width < num_min) ? num_min : num_width;
                 num_height = (num_height < num_min) ? num_min : num_height;
-                Tilemap tilemap = m_BorderGridTile;
-                tilemap.origin = m_OriginPosition;
+                Tilemap tilemap = BorderGridTile;
+                tilemap.origin = OriginPosition;
                 tilemap.ClearAllTiles();
                 // 余白
-                for (int x = -m_Margin - num_width; x < user_width + m_Margin; x++)
+                for (int x = -Margin - num_width; x < user_width + Margin; x++)
                 {
-                    for (int y = -m_Margin - num_height; y < user_height + m_Margin; y++)
+                    for (int y = -Margin - num_height; y < user_height + Margin; y++)
                     {
                         tilemap.SetTile(
-                            new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0)
-                            , m_Grids.WhitePanel);
+                            new Vector3Int(OriginPosition.x + x, OriginPosition.y - y - 1, 0)
+                            , Grids.WhitePanel);
                     }
                 }
 
@@ -905,68 +905,68 @@ namespace Coulank
                     for (int y = 0; y < user_height; y++)
                     {
                         tilemap.SetTile(
-                            new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0)
-                            , m_Grids.AllBorderPanel);
+                            new Vector3Int(OriginPosition.x + x, OriginPosition.y - y - 1, 0)
+                            , Grids.AllBorderPanel);
                     }
                 }
                 // 左側のグリッド
                 for (int x = -num_width; x < -1; x++)
                 {
                     tilemap.SetTile(
-                        new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y, 0)
-                        , m_Grids.DownBorderPanel);
+                        new Vector3Int(OriginPosition.x + x, OriginPosition.y, 0)
+                        , Grids.DownBorderPanel);
                     for (int y = 0; y < user_height; y++)
                     {
                         tilemap.SetTile(
-                            new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0)
-                            , m_Grids.UpDownBorderPanel);
+                            new Vector3Int(OriginPosition.x + x, OriginPosition.y - y - 1, 0)
+                            , Grids.UpDownBorderPanel);
                     }
                 }
                 for (int y = 0; y < user_height; y++)
                 {
                     tilemap.SetTile(
-                        new Vector3Int(m_OriginPosition.x - 1, m_OriginPosition.y - y - 1, 0)
-                        , m_Grids.UpDownRightBorderPanel);
+                        new Vector3Int(OriginPosition.x - 1, OriginPosition.y - y - 1, 0)
+                        , Grids.UpDownRightBorderPanel);
                 }
                 // 上側のグリッド
                 for (int y = -num_height; y < -1; y++)
                 {
                     tilemap.SetTile(
-                        new Vector3Int(m_OriginPosition.x - 1, m_OriginPosition.y - y - 1, 0)
-                        , m_Grids.RightBorderPanel);
+                        new Vector3Int(OriginPosition.x - 1, OriginPosition.y - y - 1, 0)
+                        , Grids.RightBorderPanel);
                     for (int x = 0; x < user_width; x++)
                     {
                         tilemap.SetTile(
-                            new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - y - 1, 0)
-                            , m_Grids.LeftRightBorderPanel);
+                            new Vector3Int(OriginPosition.x + x, OriginPosition.y - y - 1, 0)
+                            , Grids.LeftRightBorderPanel);
                     }
                 }
                 for (int x = 0; x < user_width; x++)
                 {
                     tilemap.SetTile(
-                        new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y, 0)
-                        , m_Grids.LeftRightDownBorderPanel);
+                        new Vector3Int(OriginPosition.x + x, OriginPosition.y, 0)
+                        , Grids.LeftRightDownBorderPanel);
                 }
                 tilemap.SetTile(
-                    new Vector3Int(m_OriginPosition.x - 1, m_OriginPosition.y, 0)
-                    , m_Grids.RightDownBorderPanel);
+                    new Vector3Int(OriginPosition.x - 1, OriginPosition.y, 0)
+                    , Grids.RightDownBorderPanel);
                 // 下側のグリッド
                 for (int x = -num_width; x < user_width; x++)
                 {
                     tilemap.SetTile(
-                    new Vector3Int(m_OriginPosition.x + x, m_OriginPosition.y - user_height - 1, 0)
-                    , m_Grids.UpBorderPanel);
+                    new Vector3Int(OriginPosition.x + x, OriginPosition.y - user_height - 1, 0)
+                    , Grids.UpBorderPanel);
                 }
                 // 右側のグリッド
                 for (int y = -num_height; y < user_height; y++)
                 {
                     tilemap.SetTile(
-                        new Vector3Int(m_OriginPosition.x + user_width, m_OriginPosition.y - y - 1, 0)
-                        , m_Grids.LeftBorderPanel);
+                        new Vector3Int(OriginPosition.x + user_width, OriginPosition.y - y - 1, 0)
+                        , Grids.LeftBorderPanel);
                 }
                 tilemap.SetTile(
-                    new Vector3Int(m_OriginPosition.x + user_width, m_OriginPosition.y - user_height - 1, 0)
-                    , m_Grids.LeftUpBorderPanel);
+                    new Vector3Int(OriginPosition.x + user_width, OriginPosition.y - user_height - 1, 0)
+                    , Grids.LeftUpBorderPanel);
             }
         }
     }

@@ -278,7 +278,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_controllerEvents:
-    m_buttonEvents: []
+    m_buttonEvents:
+    - m_property:
+        m_InputButton: 0
+        m_ExclusionButton: 0
+        m_InputKey: 103
+        m_ModifierKeys:
+          Ctrl: 1
+          Alt: 0
+          Shift: 0
+        m_ButtonMode: 4
+      m_onEvent:
+        m_PersistentCalls:
+          m_Calls:
+          - m_Target: {fileID: 93686115}
+            m_MethodName: test
+            m_Mode: 1
+            m_Arguments:
+              m_ObjectArgument: {fileID: 0}
+              m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+              m_IntArgument: 0
+              m_FloatArgument: 0
+              m_StringArgument: 
+              m_BoolArgument: 0
+            m_CallState: 2
+        m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+          Culture=neutral, PublicKeyToken=null
   m_Question: {fileID: 11400000, guid: 15455f8ac38886b4b8cdd2573c8b782f, type: 2}
   m_DefaultPanel: {fileID: 11400000, guid: 4581470c026c2e948b6f55484b475419, type: 2}
   m_AssistMode: 1
@@ -6440,6 +6465,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_property.SwipeDead
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 809683845074070994, guid: d445c323f4c6b544fba29379a1d31121,
+        type: 3}
+      propertyPath: m_controllerEvents.m_buttonEvents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 809683845074070994, guid: d445c323f4c6b544fba29379a1d31121,
+        type: 3}
+      propertyPath: m_controllerEvents.m_buttonEvents.Array.data[0].m_onEvent.m_TypeName
+      value: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+        Culture=neutral, PublicKeyToken=null
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d445c323f4c6b544fba29379a1d31121, type: 3}
