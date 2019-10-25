@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4115251273033036155
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4115251273033036154}
+  - component: {fileID: 809683845074070994}
+  - component: {fileID: 5337924791332934468}
+  m_Layer: 0
+  m_Name: MainController
+  m_TagString: GameController
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4115251273033036154
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4115251273033036155}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &809683845074070994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4115251273033036155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27ad2ceee7c3d3147af6a67a086e31b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_controllerEvents: []
+  followObject: {fileID: 0}
+  RelativeOffset: {x: 0, y: 0, z: 0}
+  DefaultAngle: 20
+  DefaultResetRotY: 1
+  rotMoving: 0
+  BaseAxis: {x: 0, y: 1, z: 0}
+  MaxBaseAngle: 90
+  MinBaseAngle: -90
+  Smooth: 16
+  PermissionController: 1
+  ViewForwardButton: 128
+  RespawnButton: 83886080
+  RespawnPosition: {x: 0, y: 0, z: 0}
+  SwitchControllFromCameara: 1
+--- !u!114 &5337924791332934468
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4115251273033036155}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c6b0f89b4c6c8a48a33e2ba9a628110, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_globalControllerEvents: []
+  m_inputInspector:
+    PressButtonInt: 0
+    PressButton: 
+    TouchPosition: {x: 0, y: 0}
+    TouchVector: {x: 0, y: 0}
+    MoveStick: {x: 0, y: 0}
+    RotStick: {x: 0, y: 0}
+    LeftStick: {x: 0, y: 0}
+    RightStick: {x: 0, y: 0}
+    neko: {x: 0, y: 0}
+  m_property:
+    Name: 
+    ButtonZLR_Reverse: 0
+    ConKeyboard: 1
+    MultPlayKeyboard: 0
+    CompFlag: 1
+    TouchDeltaMagnitude: 5
+    TouchRotReverseComp: {x: 1, y: 1}
+    RotReverseComp: {x: 1, y: -1}
+    TouchVectorMode: 100000002000000000000000
+    TouchesButton: 100000000000000000000000
+    TouchButtonFlag: 1
+    TouchButtonPushFlag: 1
+    ArrowToMove: 1
+    ArrowKeyStrange: 1
+    MoveToArrow: 1
+    MoveArrowDead: 0.3
+    SwipeToMove: 1
+    SwipeDead: 20
+    SwipeMaxRadius: 40
+  ControllerNames: []
+  currentConType: 0
+  JoystickName: All
