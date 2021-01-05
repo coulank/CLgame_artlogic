@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using Coulank.Graphics;
+// いじってわかった、GUID変更されたら設定しなおしになる
 
 namespace Coulank
 {
@@ -226,7 +227,7 @@ namespace Coulank
                 UData = CreateAUData(UData);
                 return UData;
             }
-            public byte[] SetUData(string aCompressData, 
+            public byte[] SetUData(string aCompressData,
                 Convert.EStringByte eStringType = Convert.EStringByte.Base64)
             {
                 var uData = Convert.Compress.ByteDecompress(
@@ -285,7 +286,7 @@ namespace Coulank
                     for (int y = 0; y < verticals[x].Count; y++)
                     {
                         SetNumTile(verticals[x][y].Num,
-                            new Vector2Int(x , -verticals[x].Count + y));
+                            new Vector2Int(x, -verticals[x].Count + y));
                     }
                     Calc.ValueSet.Max(TopHeight, verticals[x].Count);
                 }
@@ -423,6 +424,11 @@ namespace Coulank
             public void SetNumTile(DicNums dnums, DicNums compDnums)
             {
                 TopHeight = 4; LeftWidth = 4;
+                if (dnums == null)
+                {
+                    Debug.Log("設問の生成に失敗しました");
+                    return;
+                }
                 List<List<CNums.Property>> verticals = dnums.Vertical.list;
                 for (int x = 0; x < verticals.Count; x++)   // ||の並び
                 {
@@ -449,7 +455,7 @@ namespace Coulank
             /// <param name="num">配置したい数字、0～99</param>
             /// <param name="position">配置したい座標、Gridに沿って配置</param>
             /// <param name="eColor">指定したい色、ColorNumbersの定義必要</param>
-            public void SetNumTile(int num, Vector2Int position, 
+            public void SetNumTile(int num, Vector2Int position,
                 EColor eColor = EColor.Black)
             {
                 Tile leftTile, rightTile;
@@ -482,7 +488,7 @@ namespace Coulank
             /// </summary>
             public static Vector2Int TilePosToDrawPos(Vector3Int tilePos)
             {
-                return new Vector2Int(tilePos.x, - tilePos.y - 1);
+                return new Vector2Int(tilePos.x, -tilePos.y - 1);
             }
             /// <summary>
             /// 描画用の座標で塗る
@@ -508,20 +514,25 @@ namespace Coulank
                 DrawTile.SetTile(v, tile);
             }
             /// 描画配列から自動的に塗る
-            public void SetDrawTile(byte[] udata)
+            public void SetDrawTile(byte[] adata)
             {
+                if (adata.Length < 1)
+                {
+                    Debug.Log("ADataがないため塗ることができませんでした");
+                    return;
+                }
                 DrawTile.origin = OriginPosition;
                 DrawTile.ClearAllTiles();
                 Tile tile;
-                int width = udata[2];
-                for (int i = 4; i <udata.Length; i++)
+                int width = adata[2];
+                for (int i = 4; i < adata.Length; i++)
                 {
                     int x = Mathf.FloorToInt((i - 4) % width);
                     int y = Mathf.FloorToInt((i - 4) / width);
-                    if ((udata[i] & 1) > 0)
+                    if ((adata[i] & 1) > 0)
                     {
                         tile = Draws.Fill;
-                    } else if ((udata[i] & 4) > 0)
+                    } else if ((adata[i] & 4) > 0)
                     {
                         tile = Draws.Check;
                     } else
@@ -549,12 +560,12 @@ namespace Coulank
                 if (data.Length <= i) return false;
                 return (data[i] & 15) >= threshold;
             }
-            public static bool DataJudge(byte[] data, int x, int y, 
+            public static bool DataJudge(byte[] data, int x, int y,
                 int threshold, byte[] aData = null)
             {
                 if (data.Length < 4) return false;
                 int width = data[2];
-                int i =  DATA_HEADER + y + x * width;
+                int i = DATA_HEADER + y + x * width;
                 bool judge = DataJudge(data, i, threshold);
                 if (aData != null)
                 {
@@ -572,7 +583,7 @@ namespace Coulank
             /// <param name="setAData">
             /// 正解用に反映するかどうか、ユーザが塗るときは反映しない
             /// </param>
-            protected void SetVertical(DicNums nums, byte[] data, int x, 
+            protected void SetVertical(DicNums nums, byte[] data, int x,
                 int threshold, bool setAData = false)
             {
                 if (data.Length < 4) return;
@@ -651,7 +662,7 @@ namespace Coulank
             /// <param name="setAData">
             /// 正解用に反映するかどうか、ユーザが塗るときは反映しない
             /// </param>
-            protected void SetHorizon(DicNums nums, byte[] data, int y, 
+            protected void SetHorizon(DicNums nums, byte[] data, int y,
                 int threshold, bool setAData = false)
             {
                 if (data.Length < 4) return;
@@ -726,6 +737,10 @@ namespace Coulank
                 {
                     Debug.Log("設問データが設定されておりません");
                     return;
+                } else if (QData.Length < 1)
+                {
+                    Debug.Log("QDataの生成に失敗しました");
+                    return;
                 }
                 NumberTile.origin = OriginPosition;
                 NumberTile.ClearAllTiles();
@@ -761,8 +776,15 @@ namespace Coulank
                 }
                 else
                     UData = uData;
+                if (UData.Length < 1)
+                {
+                    Debug.Log("UDataの生成に失敗しました");
+                    return;
+                }
+
                 int width = UData[2];
                 int height = UData[3];
+
                 UNums = new DicNums();
                 for (int i = 0; i < width; i++)
                 {
@@ -780,7 +802,7 @@ namespace Coulank
                 QDataMapping();
                 UDataMapping();
                 SetNumTile(QNums, UNums);
-                SetDrawTile(UData);
+                SetDrawTile(AData);
             }
 
             public void TestDataToDraw(byte[] data, int threshold = 7)

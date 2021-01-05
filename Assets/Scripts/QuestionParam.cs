@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using Coulank.Convert;
+// 設定したテクスチャの反映をしなければ失敗するため注意（久々に扱って気づいた）
 
 [CreateAssetMenu(menuName = "Data/CreateQuestion")]
 public class QuestionParam : ScriptableObject

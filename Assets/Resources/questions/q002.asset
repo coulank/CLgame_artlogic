@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 567c2aeca61d5954dad96baca574a4a6, type: 3}
+  m_Name: q002
+  m_EditorClassIdentifier: 
+  Sprite: {fileID: 21300000, guid: 8233fbf784956f64991cdc5931d63d25, type: 3}
+  Title: test2
+  Answer: Hugo
+  Comment: 
+  Threshold: 7
+  data: 8d93c19a83200c84bd9290e0b1c79e6a9fc0bcd6f603de7f8768bb807be81cc4cf3f0c71a2cb72bf2fdf2ac4c89c58a118ffc1a594ecda209d31957ddfb7b742509d763f1e213cff34f203073a7529888e23d4da5354105db813f51278c8c09f84170bcc0c1b4181c8e0efae81159c19c88fe91b84b168e3dc7632e39411935ba8632f18fd996957454480b51aec947b1c599de55c2b1633e27e0682f3f6d78b72e3f587b2614b77400b06e627af58a717683d6180c5a0b6924c033a223825d00563e8a69ec1c1c7026d63b75373fcc0b675c2f468ca5737daf074c3a5ad34e5a796a8538cc9fa02e496524c1441fc121322e87851c9c768c455446bcff1c9e40c5e9c2320993e809550503e32592689107da889adeb1c203abedd8e80edf2ffb4827cb4a425cfc3793739dd7ca35f

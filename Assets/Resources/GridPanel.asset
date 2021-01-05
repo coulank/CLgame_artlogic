@@ -12,16 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f981ca4887d58f64ab565b6eddb257a3, type: 3}
   m_Name: GridPanel
   m_EditorClassIdentifier: 
-  m_Grids:
+  Grids:
     WhitePanel: {fileID: 11400000, guid: 1fd839385c3f6db47baf5dbb5e733b41, type: 2}
     RightBorderPanel: {fileID: 11400000, guid: c8b1c425bdd481a4f8cee51636e00559, type: 2}
     DownBorderPanel: {fileID: 11400000, guid: 23c0cd58e7945f04286a304fc2c7169e, type: 2}
     RightDownBorderPanel: {fileID: 11400000, guid: 53d22c2455e743d458b83b8d97ee05ee,
       type: 2}
-    LeftBorderPanel: {fileID: 11400000, guid: 6cc8208f0fb375c40a346aff14867ecc, type: 2}
+    LeftBorderPanel: {fileID: 11400000, guid: 6a1f89793cbe2f74eb098fd40bd4a215, type: 2}
     UpBorderPanel: {fileID: 11400000, guid: d74d3eba5cbae594885e28a150df69d8, type: 2}
-    LeftUpBorderPanel: {fileID: 11400000, guid: c16152e44873ea5458bc5f23f6707da1,
-      type: 2}
+    LeftUpBorderPanel: {fileID: 0}
     LeftRightBorderPanel: {fileID: 11400000, guid: a374bed5f9a930949acf07474cea3359,
       type: 2}
     LeftRightDownBorderPanel: {fileID: 11400000, guid: 7c8c9b160705d25479f638620bfed8e0,
@@ -31,7 +30,7 @@ MonoBehaviour:
     UpDownRightBorderPanel: {fileID: 11400000, guid: 78eb699039e651942bc8af5635ad5f64,
       type: 2}
     AllBorderPanel: {fileID: 11400000, guid: ed24dfa10aaec9040baef836ccef3306, type: 2}
-  m_Nums:
+  Nums:
     OnesPlaces:
     - LeftPlace: {fileID: 11400000, guid: c462d9a23129fff4e95cea201407bfb1, type: 2}
       RightPlace: {fileID: 11400000, guid: f510326c6b1bacf4ca53e51c7e0a34c0, type: 2}
@@ -74,17 +73,17 @@ MonoBehaviour:
       RightPlace: {fileID: 11400000, guid: 6d875e8f8f8cee14a9d8d7852b4a3744, type: 2}
     - LeftPlace: {fileID: 11400000, guid: 5341fb54c92acea4caca12f7446c1d7e, type: 2}
       RightPlace: {fileID: 11400000, guid: f92c3fab7ec53434dbd8ca0afc6e8c0d, type: 2}
-  m_Draws:
+  Draws:
     Blank: {fileID: 11400000, guid: 301adb3957014ad4c91e89cfd2cd23e9, type: 2}
     Check: {fileID: 11400000, guid: 66fdea16276b3584e88b67748c0d3dd4, type: 2}
     Fill: {fileID: 11400000, guid: 48431f8d5ff87f44c8f1eb42f9f852ab, type: 2}
-  m_BorderGridTile: {fileID: 0}
-  m_NumberTile: {fileID: 0}
-  m_DrawTile: {fileID: 0}
-  m_TopHeight: 4
-  m_LeftWidth: 4
-  m_QParam: {fileID: 11400000, guid: d39f9d7f038b0364b9f76543548e78d2, type: 2}
+  BorderGridTile: {fileID: 0}
+  NumberTile: {fileID: 0}
+  DrawTile: {fileID: 0}
+  TopHeight: 0
+  LeftWidth: 0
+  QParam: {fileID: 0}
   AData: 
   UData: 
-  m_OriginPosition: {x: 0, y: 0, z: 0}
-  m_Margin: 20
+  OriginPosition: {x: 0, y: 0, z: 0}
+  Margin: 1

@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 567c2aeca61d5954dad96baca574a4a6, type: 3}
   m_Name: q001
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: 21300000, guid: 538927a2033f00b46829f292ad2102b7, type: 3}
-  m_Title: "\u6700\u521D\u306E\u554F\u984C"
-  m_Answer: "\u308A\u3093\u3054"
-  m_Comment: "\u307F\u305A\u307F\u305A\u3057 \u7F8E\u5473\u3057\u3044\u79CB\u306E
-    \u5473\u899A\u304B\u306A"
-  m_Threshold: 7
-  m_Data: 2dc52102002008034022716d430b9117f9ffa728ea953373071055993d1a1992c0459ec54be337e23511b36103
+  Sprite: {fileID: 21300000, guid: 538927a2033f00b46829f292ad2102b7, type: 3}
+  Title: test
+  Answer: apple
+  Comment: 
+  Threshold: 7
+  data: 2dc62b16003008034124322e79a94172ff13967ed6cc46640291dd5500e62732250de428dee48ffd58f03a6103
